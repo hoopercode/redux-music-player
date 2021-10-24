@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -6,11 +6,32 @@ import {
   faAngleRight,
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
+import { playAudio } from "../util";
 
 const Player = (props) => {
 
-  const {isPlaying, setIsPlaying, audioRef, setSongInfo, songInfo, songs, currentSong, setCurrentSong} = props;
+  const {isPlaying, setIsPlaying, audioRef, setSongInfo, songInfo, songs, currentSong, setCurrentSong, setSongs} = props;
   //Ref
+
+
+  useEffect(() => {
+    const newSongs = songs.map((song)=>{
+      if(song.id === currentSong.id){
+        return {
+          ...song,
+          active: true,
+        }
+          
+        } else {
+          return {
+            ...song,
+            active: false,
+      }
+    }
+    });
+    setSongs(newSongs)
+
+  },[currentSong])
   
   const playSongHandler = () => {
     if(isPlaying){
@@ -43,11 +64,13 @@ setSongInfo({...songInfo, currentTime: e.target.value})
     } else if (direction === "skip-back") {
       if ((currentIndex-1)%songs.length === -1){
         setCurrentSong(songs[songs.length - 1]);
+        playAudio(isPlaying, audioRef)
         return;
       }
-        setCurrentSong(songs[(currentIndex-1) % songs.length])
+        setCurrentSong(songs[(currentIndex-1) % songs.length]);
+        
       }
-    
+      playAudio(isPlaying, audioRef)
   }
 
 
