@@ -19,6 +19,7 @@ const LibrarySong = ({ isPlaying, song, songs, setCurrentSong, id, audioRef, set
     }
     });
     setSongs(newSongs)
+    setCurrentSong(song);
     playAudio(isPlaying, audioRef)
     
   };
