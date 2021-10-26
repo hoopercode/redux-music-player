@@ -24,7 +24,7 @@ function App() {
   };
   
   return (
-    <div className={`App ${libraryStatus ? 'library-active' : ''}`}>
+    
       <Navigation 
       setLibraryStatus={setLibraryStatus}
       libraryStatus={libraryStatus}
